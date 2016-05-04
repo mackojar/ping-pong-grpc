@@ -1,0 +1,67 @@
+{
+	"ImportPath": "github.com/denderello/ping-pong-grpc",
+	"GoVersion": "go1.5",
+	"GodepVersion": "v63",
+	"Deps": [
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "7cc19b78d562895b13596ddce7aafb59dd789318"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "golang.org/x/net/http2",
+			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "golang.org/x/net/http2/hpack",
+			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "golang.org/x/net/internal/timeseries",
+			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "golang.org/x/net/trace",
+			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/codes",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/credentials",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/grpclog",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/internal",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/metadata",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/naming",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/peer",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		},
+		{
+			"ImportPath": "google.golang.org/grpc/transport",
+			"Rev": "7f24e5e90e7e79ee1c68359b05908b668a23ffb2"
+		}
+	]
+}
