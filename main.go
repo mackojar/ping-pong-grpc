@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"net"
 	"os"
 
 	pb "github.com/denderello/ping-pong-grpc/helloworld"
+	"github.com/denderello/ping-pong-grpc/server"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -16,10 +16,10 @@ const (
 )
 
 // server is used to implement helloworld.GreeterServer.
-type server struct{}
+type greetingService struct{}
 
 // SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+func (s *greetingService) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
 }
 
@@ -40,13 +40,15 @@ func main() {
 }
 
 func runServer() {
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
-	s.Serve(lis)
+	s := server.NewGRPCServer(server.GRPCServerConfig{
+		Port: port,
+	})
+
+	s.RegisterServices(func(s *grpc.Server) {
+		pb.RegisterGreeterServer(s, &greetingService{})
+	})
+
+	s.Start()
 }
 
 func runClient() {
