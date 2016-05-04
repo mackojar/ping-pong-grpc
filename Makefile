@@ -42,4 +42,7 @@ $(BIN): $(SOURCE) VERSION build
 			go build -o build/$(BIN) .
 
 protoc:
+	mkdir -p helloworld
+	mkdir -p pingpong
 	protoc -I protos protos/helloworld.proto --go_out=plugins=grpc:helloworld
+	protoc -I protos protos/pingpong.proto --go_out=plugins=grpc:pingpong

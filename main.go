@@ -4,8 +4,11 @@ import (
 	"log"
 	"os"
 
-	pb "github.com/denderello/ping-pong-grpc/helloworld"
 	"github.com/denderello/ping-pong-grpc/server"
+	"github.com/denderello/ping-pong-grpc/service"
+
+	pb "github.com/denderello/ping-pong-grpc/helloworld"
+
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -14,14 +17,6 @@ const (
 	host = "localhost"
 	port = ":50051"
 )
-
-// server is used to implement helloworld.GreeterServer.
-type greetingService struct{}
-
-// SayHello implements helloworld.GreeterServer
-func (s *greetingService) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	return &pb.HelloReply{Message: "Hello " + in.Name}, nil
-}
 
 func main() {
 	if len(os.Args) == 1 {
@@ -45,7 +40,7 @@ func runServer() {
 	})
 
 	s.RegisterServices(func(s *grpc.Server) {
-		pb.RegisterGreeterServer(s, &greetingService{})
+		pb.RegisterGreeterServer(s, &service.GreetingService{})
 	})
 
 	s.Start()
