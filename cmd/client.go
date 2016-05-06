@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/denderello/ping-pong-grpc/client"
+	"github.com/denderello/ping-pong-grpc/net"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -30,7 +31,7 @@ var clientCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Info("Starting in client mode")
 
-		c, err := client.NewGRPCClient(client.GRPCClientConfig{
+		c, err := client.NewGRPCClient(net.NetAddress{
 			Host: clientHost,
 			Port: clientPort,
 		})

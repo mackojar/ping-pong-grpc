@@ -2,38 +2,32 @@ package client
 
 import (
 	"fmt"
-	"net"
+
+	"github.com/denderello/ping-pong-grpc/net"
+	"github.com/denderello/ping-pong-grpc/pingpong"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/denderello/ping-pong-grpc/pingpong"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 )
 
-type GRPCClientConfig struct {
-	Host string
-	Port string
-}
-
 type GRPCClient struct {
-	conf GRPCClientConfig
-	cc   *grpc.ClientConn
-	ci   pingpong.PingPongClient
+	a  net.Addresser
+	cc *grpc.ClientConn
+	ci pingpong.PingPongClient
 }
 
-func NewGRPCClient(c GRPCClientConfig) (GRPCClient, error) {
-	da := net.JoinHostPort(c.Host, c.Port)
-
-	log.Debugf("Establishing connection to %s", da)
-	cc, err := grpc.Dial(da, grpc.WithInsecure())
+func NewGRPCClient(a net.Addresser) (GRPCClient, error) {
+	log.Debugf("Establishing connection to %s", a.Address())
+	cc, err := grpc.Dial(a.Address(), grpc.WithInsecure())
 	if err != nil {
-		return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not connect to %s", da))
+		return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not connect to %s", a.Address()))
 	}
 
 	return GRPCClient{
-		conf: c,
-		cc:   cc,
-		ci:   pingpong.NewPingPongClient(cc),
+		a:  a,
+		cc: cc,
+		ci: pingpong.NewPingPongClient(cc),
 	}, nil
 }
 

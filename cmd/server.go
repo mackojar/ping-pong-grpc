@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
+	"github.com/denderello/ping-pong-grpc/net"
 	"github.com/denderello/ping-pong-grpc/server"
 )
 
@@ -20,7 +21,7 @@ var serverCommand = &cobra.Command{
 	Short: "Run pingpong in server mode",
 	Long:  `Run pingpong in server mode and wait for ping message to respond with a pong.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		s := server.NewGRPCServer(server.GRPCServerConfig{
+		s := server.NewGRPCServer(net.NetAddress{
 			Port: serverPort,
 		})
 
