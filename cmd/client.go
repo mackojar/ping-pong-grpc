@@ -1,15 +1,12 @@
 package cmd
 
 import (
-	"net"
 	"time"
 
-	"github.com/denderello/ping-pong-grpc/pingpong"
+	"github.com/denderello/ping-pong-grpc/client"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 )
 
 var (
@@ -32,33 +29,13 @@ var clientCommand = &cobra.Command{
 	Long:  `Run pingpong in client mode and send ping messages to a pingpong server`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Info("Starting in client mode")
-		log.Debugf("Running with cycle mode: %t and sleep duration: %s", clientCycleMode, clientCycleSleepDuration)
 
-		da := net.JoinHostPort(clientHost, clientPort)
-		log.Debugf("Establishing connection to %s", da)
-		conn, err := grpc.Dial(da, grpc.WithInsecure())
-		if err != nil {
-			log.Fatalf("Could not connect to %s with error: %v", da, err)
-		}
-		defer conn.Close()
-		c := pingpong.NewPingPongClient(conn)
+		c := client.NewGRPCClient(client.GRPCClientConfig{
+			Host: clientHost,
+			Port: clientPort,
+		})
+		defer c.Close()
 
-		for {
-			req := &pingpong.Ping{Message: "ping"}
-			log.Infof("Sending message to server: %s", req.Message)
-			log.Debugf("Sending request to server: %#v", req)
-			resp, err := c.SendPing(context.Background(), req)
-			if err != nil {
-				log.Fatalf("Did not receive a pong. Received error insead: %v", err)
-			}
-			log.Infof("Received message from server: %s", resp.Message)
-			log.Debugf("Received response from server: %#v", resp)
-
-			if !clientCycleMode {
-				break
-			}
-
-			time.Sleep(clientCycleSleepDuration)
-		}
+		c.Ping(clientCycleMode, clientCycleSleepDuration)
 	},
 }
