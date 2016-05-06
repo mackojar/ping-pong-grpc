@@ -1,9 +1,9 @@
 package server
 
 import (
-	"log"
 	"net"
 
+	log "github.com/Sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
@@ -26,14 +26,20 @@ func NewGRPCServer(c GRPCServerConfig) GRPCServer {
 }
 
 func (s GRPCServer) RegisterServices(r GRPCServiceRegistrator) {
+	log.Debug("Registering gRPC services for server.")
+
 	r(s.server)
 }
 
 func (s GRPCServer) Start() {
-	lis, err := net.Listen("tcp", net.JoinHostPort("", s.config.Port))
+	log.Info("Starting in server mode")
+
+	la := net.JoinHostPort("", s.config.Port)
+	lis, err := net.Listen("tcp", la)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		log.Fatalf("Failed to listen on, %s with error: %v", la, err)
 	}
 
+	log.Infof("Listening on %s", la)
 	s.server.Serve(lis)
 }
