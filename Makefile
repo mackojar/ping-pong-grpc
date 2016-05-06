@@ -46,4 +46,4 @@ $(BIN): $(SOURCE) VERSION build
 
 protoc:
 	mkdir -p pingpong
-	protoc -I protos protos/pingpong.proto --go_out=plugins=grpc:pingpong
+	protoc -I pingpong pingpong/pingpong.proto --go_out=plugins=grpc:pingpong
