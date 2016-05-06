@@ -11,7 +11,7 @@ BIN := $(PROJECT)
 VERSION := $(shell cat VERSION)
 COMMIT := $(shell git rev-parse --short HEAD)
 
-.PHONY: all clean 
+.PHONY: all clean protoc
 
 SOURCE=$(shell find . -name '*.go')
 
