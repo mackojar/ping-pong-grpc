@@ -4,6 +4,11 @@
 	"GodepVersion": "v63",
 	"Deps": [
 		{
+			"ImportPath": "github.com/Sirupsen/logrus",
+			"Comment": "v0.10.0-16-gcd7d1bb",
+			"Rev": "cd7d1bbe41066b6c1f19780f895901052150a575"
+		},
+		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Rev": "7cc19b78d562895b13596ddce7aafb59dd789318"
 		},
@@ -38,6 +43,10 @@
 		{
 			"ImportPath": "golang.org/x/net/trace",
 			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "b776ec39b3e54652e09028aaaaac9757f4f8211a"
 		},
 		{
 			"ImportPath": "google.golang.org/grpc",
