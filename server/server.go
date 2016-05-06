@@ -3,6 +3,8 @@ package server
 import (
 	"net"
 
+	"github.com/denderello/ping-pong-grpc/pingpong"
+
 	log "github.com/Sirupsen/logrus"
 	"google.golang.org/grpc"
 )
@@ -12,34 +14,30 @@ type GRPCServerConfig struct {
 }
 
 type GRPCServer struct {
-	config GRPCServerConfig
-	server *grpc.Server
+	conf GRPCServerConfig
+	gs   *grpc.Server
 }
 
-type GRPCServiceRegistrator func(*grpc.Server)
-
-func NewGRPCServer(c GRPCServerConfig) GRPCServer {
-	return GRPCServer{
-		config: c,
-		server: grpc.NewServer(),
+func NewGRPCServer(c GRPCServerConfig) *GRPCServer {
+	s := &GRPCServer{
+		conf: c,
+		gs:   grpc.NewServer(),
 	}
-}
 
-func (s GRPCServer) RegisterServices(r GRPCServiceRegistrator) {
-	log.Debug("Registering gRPC services for server.")
+	pingpong.RegisterPingPongServer(s.gs, s)
 
-	r(s.server)
+	return s
 }
 
 func (s GRPCServer) Start() {
 	log.Info("Starting in server mode")
 
-	la := net.JoinHostPort("", s.config.Port)
+	la := net.JoinHostPort("", s.conf.Port)
 	lis, err := net.Listen("tcp", la)
 	if err != nil {
 		log.Fatalf("Failed to listen on, %s with error: %v", la, err)
 	}
 
 	log.Infof("Listening on %s", la)
-	s.server.Serve(lis)
+	s.gs.Serve(lis)
 }

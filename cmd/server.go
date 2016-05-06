@@ -3,11 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/denderello/ping-pong-grpc/pingpong"
 	"github.com/denderello/ping-pong-grpc/server"
-	"github.com/denderello/ping-pong-grpc/service"
-
-	"google.golang.org/grpc"
 )
 
 var (
@@ -25,10 +21,6 @@ var serverCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		s := server.NewGRPCServer(server.GRPCServerConfig{
 			Port: serverPort,
-		})
-
-		s.RegisterServices(func(s *grpc.Server) {
-			pingpong.RegisterPingPongServer(s, &service.PingPongService{})
 		})
 
 		s.Start()
