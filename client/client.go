@@ -27,7 +27,7 @@ func NewGRPCClient(c GRPCClientConfig) (GRPCClient, error) {
 	log.Debugf("Establishing connection to %s", da)
 	cc, err := grpc.Dial(da, grpc.WithInsecure())
 	if err != nil {
-		return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not ccect to %s", da))
+		return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not connect to %s", da))
 	}
 
 	return GRPCClient{
