@@ -15,7 +15,7 @@ var (
 )
 
 func init() {
-	serverCommand.Flags().StringVar(&serverPort, "serverPort", "8080", "Port to listen on connections.")
+	serverCommand.Flags().StringVar(&serverPort, "port", "8080", "Port to listen on connections.")
 }
 
 var serverCommand = &cobra.Command{
