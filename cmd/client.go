@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 	"net"
+	"time"
 
 	"github.com/spf13/cobra"
 
@@ -13,13 +14,17 @@ import (
 )
 
 var (
-	clientHost string
-	clientPort string
+	clientHost               string
+	clientPort               string
+	clientCycleMode          bool
+	clientCycleSleepDuration time.Duration
 )
 
 func init() {
-	clientCommand.Flags().StringVar(&clientHost, "clientHost", "localhost", "Host to connect to")
-	clientCommand.Flags().StringVar(&clientPort, "clientPort", "8080", "Port to connect to")
+	clientCommand.Flags().StringVar(&clientHost, "host", "localhost", "Host to connect to")
+	clientCommand.Flags().StringVar(&clientPort, "port", "8080", "Port to connect to")
+	clientCommand.Flags().BoolVar(&clientCycleMode, "cycle-mode", false, "Wether ping requests should be automatically repeated until the client get's interrupted")
+	clientCommand.Flags().DurationVar(&clientCycleSleepDuration, "cycle-sleep-duration", time.Duration(500)*time.Millisecond, "The time to wait between two consecutive ping messsages")
 }
 
 var clientCommand = &cobra.Command{
@@ -35,10 +40,18 @@ var clientCommand = &cobra.Command{
 		defer conn.Close()
 		c := pb.NewGreeterClient(conn)
 
-		r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: "foo"})
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
+		for {
+			r, err := c.SayHello(context.Background(), &pb.HelloRequest{Name: "foo"})
+			if err != nil {
+				log.Fatalf("could not greet: %v", err)
+			}
+			log.Printf("Greeting: %s", r.Message)
+
+			if !clientCycleMode {
+				break
+			}
+
+			time.Sleep(clientCycleSleepDuration)
 		}
-		log.Printf("Greeting: %s", r.Message)
 	},
 }
