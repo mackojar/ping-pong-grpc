@@ -39,7 +39,10 @@ $(BIN): $(SOURCE) VERSION build
 			-e GOARCH=$(GOARCH) \
 			-w /go/src/$(PROJECT_PATH) \
 			golang:$(GOVERSION) \
-			go build -o build/$(BIN) .
+			go build \
+		 		-o build/$(BIN) \
+				-a -ldflags \
+				"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)" \
 
 protoc:
 	mkdir -p helloworld

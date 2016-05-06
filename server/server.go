@@ -30,7 +30,7 @@ func (s GRPCServer) RegisterServices(r GRPCServiceRegistrator) {
 }
 
 func (s GRPCServer) Start() {
-	lis, err := net.Listen("tcp", s.config.Port)
+	lis, err := net.Listen("tcp", net.JoinHostPort("", s.config.Port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
