@@ -8,6 +8,18 @@
 			"Rev": "7cc19b78d562895b13596ddce7aafb59dd789318"
 		},
 		{
+			"ImportPath": "github.com/inconshreveable/mousetrap",
+			"Rev": "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+		},
+		{
+			"ImportPath": "github.com/spf13/cobra",
+			"Rev": "336d629de064dbb12166b46c06039dbcfb935de1"
+		},
+		{
+			"ImportPath": "github.com/spf13/pflag",
+			"Rev": "cb88ea77998c3f024757528e3305022ab50b43be"
+		},
+		{
 			"ImportPath": "golang.org/x/net/context",
 			"Rev": "35ec611a141ee705590b9eb64d673f9e6dfeb1ac"
 		},
