@@ -45,7 +45,5 @@ $(BIN): $(SOURCE) VERSION build
 				"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)" \
 
 protoc:
-	mkdir -p helloworld
 	mkdir -p pingpong
-	protoc -I protos protos/helloworld.proto --go_out=plugins=grpc:helloworld
 	protoc -I protos protos/pingpong.proto --go_out=plugins=grpc:pingpong

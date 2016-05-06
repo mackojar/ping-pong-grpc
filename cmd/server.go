@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
-	pb "github.com/denderello/ping-pong-grpc/helloworld"
+	"github.com/denderello/ping-pong-grpc/pingpong"
 	"github.com/denderello/ping-pong-grpc/server"
 	"github.com/denderello/ping-pong-grpc/service"
 
@@ -28,7 +28,7 @@ var serverCommand = &cobra.Command{
 		})
 
 		s.RegisterServices(func(s *grpc.Server) {
-			pb.RegisterGreeterServer(s, &service.GreetingService{})
+			pingpong.RegisterPingPongServer(s, &service.PingPongService{})
 		})
 
 		s.Start()
