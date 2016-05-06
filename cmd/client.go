@@ -30,12 +30,19 @@ var clientCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Info("Starting in client mode")
 
-		c := client.NewGRPCClient(client.GRPCClientConfig{
+		c, err := client.NewGRPCClient(client.GRPCClientConfig{
 			Host: clientHost,
 			Port: clientPort,
 		})
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		defer c.Close()
 
-		c.Ping(clientCycleMode, clientCycleSleepDuration)
+		err = c.Ping(clientCycleMode, clientCycleSleepDuration)
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }

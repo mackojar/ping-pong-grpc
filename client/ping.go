@@ -1,11 +1,13 @@
 package client
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/denderello/ping-pong-grpc/pingpong"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 )
 
@@ -19,7 +21,7 @@ func (c GRPCClient) Ping(cycleMode bool, cycleSleepDuration time.Duration) error
 		log.Debugf("Sending request to server: %#v", req)
 		resp, err := c.ci.SendPing(context.Background(), req)
 		if err != nil {
-			log.Fatalf("Did not receive a pong. Received error insead: %v", err)
+			return errors.Wrap(err, fmt.Sprintf("Did not receive a pong."))
 		}
 		log.Infof("Received message from server: %s", resp.Message)
 

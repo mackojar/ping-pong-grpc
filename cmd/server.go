@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/denderello/ping-pong-grpc/server"
@@ -23,6 +24,9 @@ var serverCommand = &cobra.Command{
 			Port: serverPort,
 		})
 
-		s.Start()
+		err := s.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
