@@ -1,6 +1,10 @@
 package cmd
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
@@ -24,6 +28,14 @@ var serverCommand = &cobra.Command{
 		s := server.NewGRPCServer(net.NetAddress{
 			Port: serverPort,
 		})
+
+		sigs := make(chan os.Signal, 1)
+		go func() {
+			signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+			log.Debugf("Received signal %s", <-sigs)
+
+			s.Stop()
+		}()
 
 		err := s.Start()
 		if err != nil {
