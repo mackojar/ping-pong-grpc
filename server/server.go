@@ -41,3 +41,8 @@ func (s GRPCServer) Start() error {
 
 	return nil
 }
+
+func (s GRPCServer) Stop() {
+	log.Info("Stopping server")
+	s.gs.Stop()
+}
