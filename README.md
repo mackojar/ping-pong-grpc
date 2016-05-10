@@ -1,5 +1,9 @@
 # Ping Pong gRPC
 
+[![Docker Repository on
+Quay](https://quay.io/repository/denderello/ping-pong-grpc/status "Docker
+Repository on Quay")](https://quay.io/repository/denderello/ping-pong-grpc)
+
 A little ping pong program that talks via gRPC.
 
 ## Server mode
