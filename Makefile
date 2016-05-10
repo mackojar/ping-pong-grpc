@@ -4,8 +4,6 @@ ORGANIZATION=denderello
 BUILD_PATH := $(shell pwd)/build
 PROJECT_PATH := "github.com/$(ORGANIZATION)/$(PROJECT)"
 
-GOVERSION=1.6
-
 BIN := $(PROJECT)
 
 VERSION := $(shell cat VERSION)
