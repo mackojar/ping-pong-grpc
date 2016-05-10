@@ -15,13 +15,6 @@ COMMIT := $(shell git rev-parse --short HEAD)
 
 SOURCE=$(shell find . -name '*.go')
 
-ifndef GOOS
-	GOOS := linux
-endif
-ifndef GOARCH
-	GOARCH := amd64
-endif
-
 all: $(BIN)
 
 clean:
@@ -31,18 +24,10 @@ build:
 	mkdir -p $(BUILD_PATH)
 
 $(BIN): $(SOURCE) VERSION build
-	@echo Building in Docker container for $(GOOS)/$(GOARCH)
-	docker run \
-			--rm \
-			-v $(shell pwd):/go/src/$(PROJECT_PATH) \
-			-e GOOS=$(GOOS) \
-			-e GOARCH=$(GOARCH) \
-			-w /go/src/$(PROJECT_PATH) \
-			golang:$(GOVERSION) \
-			go build \
-		 		-o build/$(BIN) \
-				-a -ldflags \
-				"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)" \
+	go build \
+		-o build/$(BIN) \
+		-a -ldflags \
+		"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)"
 
 protoc:
 	mkdir -p pingpong

@@ -1,9 +1,11 @@
 FROM golang:1.6-wheezy
 
-COPY . /opt/ping-pong-grpc/src
+COPY . $GOPATH/src/github.com/denderello/ping-pong-grpc
 
-RUN mv /opt/ping-pong-grpc/src/build/ping-pong-grpc /opt/ping-pong-grpc/ping-pong-grpc
+WORKDIR $GOPATH/src/github.com/denderello/ping-pong-grpc
 
-ENTRYPOINT ["/opt/ping-pong-grpc/ping-pong-grpc"]
+RUN make && mv build/ping-pong-grpc $GOPATH/bin
+
+ENTRYPOINT ["ping-pong-grpc"]
 
 EXPOSE 8080
