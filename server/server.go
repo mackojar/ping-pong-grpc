@@ -4,45 +4,52 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/denderello/ping-pong-grpc/log"
 	lnet "github.com/denderello/ping-pong-grpc/net"
 	"github.com/denderello/ping-pong-grpc/pingpong"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 )
 
-type GRPCServer struct {
-	a  lnet.Addresser
-	gs *grpc.Server
+type GRPCServerConfig struct {
+	Logger  log.Logger
+	Address lnet.Addresser
 }
 
-func NewGRPCServer(a lnet.Addresser) *GRPCServer {
+type GRPCServer struct {
+	logger  log.Logger
+	address lnet.Addresser
+	server  *grpc.Server
+}
+
+func NewGRPCServer(c GRPCServerConfig) *GRPCServer {
 	s := &GRPCServer{
-		a:  a,
-		gs: grpc.NewServer(),
+		logger:  c.Logger,
+		address: c.Address,
+		server:  grpc.NewServer(),
 	}
 
-	pingpong.RegisterPingPongServer(s.gs, s)
+	pingpong.RegisterPingPongServer(s.server, s)
 
 	return s
 }
 
 func (s GRPCServer) Start() error {
-	log.Info("Starting in server mode")
+	s.logger.Info("Starting server mode")
 
-	lis, err := net.Listen("tcp", s.a.Address())
+	lis, err := net.Listen("tcp", s.address.Address())
 	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("Failed to listen on, %s", s.a.Address()))
+		return errors.Wrap(err, fmt.Sprintf("Failed to listen on, %s", s.address.Address()))
 	}
 
-	log.Infof("Listening on %s", s.a.Address())
-	s.gs.Serve(lis)
+	s.logger.Infof("Listening on %s", s.address.Address())
+	s.server.Serve(lis)
 
 	return nil
 }
 
 func (s GRPCServer) Stop() {
-	log.Info("Stopping server")
-	s.gs.Stop()
+	s.logger.Info("Stopping server")
+	s.server.Stop()
 }

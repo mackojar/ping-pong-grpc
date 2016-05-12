@@ -5,7 +5,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/denderello/ping-pong-grpc/net"
@@ -25,21 +25,26 @@ var serverCommand = &cobra.Command{
 	Short: "Run pingpong in server mode",
 	Long:  `Run pingpong in server mode and wait for ping message to respond with a pong.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		s := server.NewGRPCServer(net.NetAddress{
-			Port: serverPort,
+		l := logrus.StandardLogger()
+
+		s := server.NewGRPCServer(server.GRPCServerConfig{
+			Logger: l,
+			Address: net.NetAddress{
+				Port: serverPort,
+			},
 		})
 
 		sigs := make(chan os.Signal, 1)
 		go func() {
 			signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-			log.Debugf("Received signal %s", <-sigs)
+			l.Debugf("Received signal %s", <-sigs)
 
 			s.Stop()
 		}()
 
 		err := s.Start()
 		if err != nil {
-			log.Fatal(err)
+			l.Fatal(err)
 		}
 	},
 }
