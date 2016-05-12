@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	log "github.com/Sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -26,21 +26,8 @@ var PingPongCommand = &cobra.Command{
 	Short: "Pingpong is a simple request/response test tool",
 	Long:  `Pingpong can run in server and client mode.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		switch logLevel {
-		case "debug":
-			log.SetLevel(log.DebugLevel)
-		case "info":
-			log.SetLevel(log.InfoLevel)
-		case "warn":
-			log.SetLevel(log.WarnLevel)
-		case "error":
-			log.SetLevel(log.ErrorLevel)
-		case "fatal":
-			log.SetLevel(log.FatalLevel)
-		case "panic":
-			log.SetLevel(log.PanicLevel)
-		default:
-			log.Fatalf("Cannot use unsupported log level %s.", logLevel)
+		if _, err := logrus.ParseLevel(logLevel); err != nil {
+			logrus.Fatal(err)
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {

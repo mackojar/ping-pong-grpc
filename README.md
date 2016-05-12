@@ -1,11 +1,7 @@
 # Ping Pong gRPC
 
-[![Docker Repository on
-Quay](https://quay.io/repository/denderello/ping-pong-grpc/status "Docker
-Repository on Quay")](https://quay.io/repository/denderello/ping-pong-grpc)
-
-[![Go Report Card](https://goreportcard.com/badge/denderello/ping-pong-grpc "Go Report
-Card")](https://goreportcard.com/report/denderello/ping-pong-grpc)
+[![Docker Repository on Quay](https://quay.io/repository/denderello/ping-pong-grpc/status "Docker Repository on Quay")](https://quay.io/repository/denderello/ping-pong-grpc)
+[![Go Report Card](https://goreportcard.com/badge/denderello/ping-pong-grpc "Go Report Card")](https://goreportcard.com/report/denderello/ping-pong-grpc)
 
 A little ping pong program that talks via gRPC.
 
