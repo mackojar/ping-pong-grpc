@@ -9,11 +9,7 @@ RUN apk add --update \
     musl-dev \
     git \
     gcc \
-  && \
-    make \
-  && \
-    mv build/ping-pong-grpc $GOPATH/bin
-  
+  && make install
 
 ENTRYPOINT ["ping-pong-grpc"]
 
