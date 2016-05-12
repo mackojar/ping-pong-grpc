@@ -1,31 +1,25 @@
 PROJECT=ping-pong-grpc
 ORGANIZATION=denderello
 
-BUILD_PATH := $(shell pwd)/build
 PROJECT_PATH := "github.com/$(ORGANIZATION)/$(PROJECT)"
-
 BIN := $(PROJECT)
 
 VERSION := $(shell cat VERSION)
 COMMIT := $(shell git rev-parse --short HEAD)
 
-.PHONY: all clean protoc
-
 SOURCE=$(shell find . -name '*.go')
+BUILD_FLAGS=-a -ldflags \
+	"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)"
 
-all: $(BIN)
+.PHONY: install protoc
 
-clean:
-	rm -rf $(BUILD_PATH)
-
-build:
-	mkdir -p $(BUILD_PATH)
-
-$(BIN): $(SOURCE) VERSION build
+$(BIN): $(SOURCE) VERSION
 	go build \
-		-o build/$(BIN) \
-		-a -ldflags \
-		"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)"
+		$(BUILD_FLAGS)
+
+install:
+	go install \
+		$(BUILD_FLAGS)
 
 protoc:
 	mkdir -p pingpong
