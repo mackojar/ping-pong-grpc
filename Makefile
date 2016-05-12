@@ -2,18 +2,16 @@ PROJECT=ping-pong-grpc
 ORGANIZATION=denderello
 
 PROJECT_PATH := "github.com/$(ORGANIZATION)/$(PROJECT)"
-
 BIN := $(PROJECT)
 
 VERSION := $(shell cat VERSION)
 COMMIT := $(shell git rev-parse --short HEAD)
 
-.PHONY: install protoc
-
 SOURCE=$(shell find . -name '*.go')
-
 BUILD_FLAGS=-a -ldflags \
 	"-X $(PROJECT_PATH)/cmd.projectVersion=$(VERSION) -X $(PROJECT_PATH)/cmd.projectCommit=$(COMMIT)"
+
+.PHONY: install protoc
 
 $(BIN): $(SOURCE) VERSION
 	go build \
