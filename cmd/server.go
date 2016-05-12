@@ -5,7 +5,6 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
 	"github.com/denderello/ping-pong-grpc/net"
@@ -25,7 +24,7 @@ var serverCommand = &cobra.Command{
 	Short: "Run pingpong in server mode",
 	Long:  `Run pingpong in server mode and wait for ping message to respond with a pong.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		l := logrus.StandardLogger()
+		l := newLogger()
 
 		s := server.NewGRPCServer(server.GRPCServerConfig{
 			Logger: l,

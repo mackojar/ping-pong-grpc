@@ -6,7 +6,6 @@ import (
 	"github.com/denderello/ping-pong-grpc/client"
 	"github.com/denderello/ping-pong-grpc/net"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +28,7 @@ var clientCommand = &cobra.Command{
 	Short: "Run pingpong in client mode",
 	Long:  `Run pingpong in client mode and send ping messages to a pingpong server`,
 	Run: func(cmd *cobra.Command, args []string) {
-		l := logrus.StandardLogger()
+		l := newLogger()
 
 		c, err := client.NewGRPCClient(client.GRPCClientConfig{
 			Logger: l,
