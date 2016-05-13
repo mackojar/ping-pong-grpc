@@ -26,9 +26,11 @@ var PingPongCommand = &cobra.Command{
 	Short: "Pingpong is a simple request/response test tool",
 	Long:  `Pingpong can run in server and client mode.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if _, err := logrus.ParseLevel(logLevel); err != nil {
+		level, err := logrus.ParseLevel(logLevel)
+		if err != nil {
 			logrus.Fatal(err)
 		}
+		logrus.SetLevel(level)
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if displayVersion {
