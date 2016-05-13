@@ -9,7 +9,6 @@ type LoggerBridge struct {
 }
 
 func (lb *LoggerBridge) Write(p []byte) (n int, err error) {
-	lb.logger.Debug(string(p[:]))
-
+	lb.logger.Debugf("Telemetry sending metric: %s", string(p[:]))
 	return len(p), nil
 }
