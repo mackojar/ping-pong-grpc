@@ -6,12 +6,18 @@
 
 A little ping pong program that talks via gRPC.
 
-## Buld
+## Buld and save image
 
 Build the docker container with all necessary binaries
 ```
 docker build -t grpcpingpong .
+docker save grpcpingpong > grpcpingpong.tar
 ```
+copy the image to the other server and do following command to load it
+```
+docker load -i grpcpingpong.tar
+```
+
 
 ## Run server 
 
