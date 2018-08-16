@@ -3,7 +3,32 @@
 [![Docker Repository on Quay](https://quay.io/repository/denderello/ping-pong-grpc/status "Docker Repository on Quay")](https://quay.io/repository/denderello/ping-pong-grpc)
 [![Go Report Card](https://goreportcard.com/badge/denderello/ping-pong-grpc "Go Report Card")](https://goreportcard.com/report/denderello/ping-pong-grpc)
 
+
 A little ping pong program that talks via gRPC.
+
+## Buld
+
+Build the docker container with all necessary binaries
+```
+docker build -t grpcpingpong .
+```
+
+## Run server 
+
+using docker command
+```
+docker run -d --name test -p 8090:8090 grpcpingpong:v1 server --msg "custom return message" --port 8090
+```
+
+using predefined docker-compose yaml
+```
+docker-compose -f docker-compose-sample.yaml up -d
+```
+
+# Run client
+```
+./ping-pong-grpc client --port 7053
+```
 
 ## Server mode
 

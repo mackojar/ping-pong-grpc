@@ -13,4 +13,3 @@ RUN apk add --update \
 
 ENTRYPOINT ["ping-pong-grpc"]
 
-EXPOSE 8080

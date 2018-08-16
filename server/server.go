@@ -15,12 +15,14 @@ import (
 type GRPCServerConfig struct {
 	Logger  log.Logger
 	Address lnet.Addresser
+	Message string 
 }
 
 type GRPCServer struct {
 	logger  log.Logger
 	address lnet.Addresser
 	server  *grpc.Server
+	message string
 }
 
 func NewGRPCServer(c GRPCServerConfig) *GRPCServer {
@@ -28,6 +30,7 @@ func NewGRPCServer(c GRPCServerConfig) *GRPCServer {
 		logger:  c.Logger,
 		address: c.Address,
 		server:  grpc.NewServer(),
+		message: c.Message,
 	}
 
 	pingpong.RegisterPingPongServer(s.server, s)

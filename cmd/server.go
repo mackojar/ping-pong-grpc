@@ -13,10 +13,12 @@ import (
 
 var (
 	serverPort string
+        serverMsg string
 )
 
 func init() {
 	serverCommand.Flags().StringVar(&serverPort, "port", "8080", "Port to listen on connections.")
+	serverCommand.Flags().StringVar(&serverMsg, "msg", "pong", "Message returned by server.")
 }
 
 var serverCommand = &cobra.Command{
@@ -31,6 +33,7 @@ var serverCommand = &cobra.Command{
 			Address: net.NetAddress{
 				Port: serverPort,
 			},
+			Message: serverMsg,
 		})
 
 		sigs := make(chan os.Signal, 1)

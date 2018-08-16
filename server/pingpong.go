@@ -7,5 +7,5 @@ import (
 )
 
 func (s *GRPCServer) SendPing(ctx context.Context, in *pingpong.Ping) (*pingpong.Pong, error) {
-	return &pingpong.Pong{Message: "pong"}, nil
+	return &pingpong.Pong{Message: s.message}, nil
 }

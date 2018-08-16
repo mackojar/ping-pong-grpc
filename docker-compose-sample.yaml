@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+
+    test1:
+        container_name: test1 
+        image: grpcpingpong
+        command: server --msg "grpc://0.0.0.0:7051" --port 7051
+        #network_mode: host
+        ports:
+            - '7051:7051'
+
+    test2:
+        container_name: test2 
+        image: grpcpingpong
+        command: server --msg "grpc://0.0.0.0:7052" --port 7052
+        #network_mode: host
+        ports:
+            - '7052:7052'
+
+    test3:
+        container_name: test3 
+        image: grpcpingpong
+        command: server --msg "grpc://0.0.0.0:7053" --port 7053
+        #network_mode: host
+        ports:
+            - '7053:7053'
