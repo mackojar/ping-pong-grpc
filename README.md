@@ -27,7 +27,7 @@ docker-compose -f docker-compose-sample.yaml up -d
 
 ## Run client
 ```
-./ping-pong-grpc client --port 7053
+docker exec -ti clitest ping-pong-grpc client --port 7051
 ```
 
 ## Server mode
