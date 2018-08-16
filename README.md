@@ -17,7 +17,7 @@ docker build -t grpcpingpong .
 
 using docker command
 ```
-docker run -d --name test -p 8090:8090 grpcpingpong:v1 server --msg "custom return message" --port 8090
+docker run -d --name test -p 8090:8090 grpcpingpong server --msg "custom return message" --port 8090
 ```
 
 using predefined docker-compose yaml
