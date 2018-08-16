@@ -25,7 +25,7 @@ using predefined docker-compose yaml
 docker-compose -f docker-compose-sample.yaml up -d
 ```
 
-# Run client
+## Run client
 ```
 ./ping-pong-grpc client --port 7053
 ```
