@@ -1,0 +1,9 @@
+FROM godev
+
+COPY . $GOPATH/src/github.com/denderello/ping-pong-grpc
+
+WORKDIR $GOPATH/src/github.com/denderello/ping-pong-grpc
+
+RUN make install
+
+ENTRYPOINT ["ping-pong-grpc"]

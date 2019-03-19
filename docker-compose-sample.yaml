@@ -5,7 +5,7 @@ services:
     test1:
         container_name: test1 
         image: grpcpingpong
-        command: server --msg "responce from grpc://peer0.test.eu:7051" --port 7051
+        command: server --msg "response from grpc://peer0.test.eu:7051" --port 7051
         network_mode: host
         volumes:
             - /etc/hosts:/etc/hosts
@@ -13,7 +13,7 @@ services:
     test2:
         container_name: test2 
         image: grpcpingpong
-        command: server --msg "responce from grpc://peer0.test.eu:7052" --port 7052
+        command: server --msg "response from grpc://peer0.test.eu:7052" --port 7052
         network_mode: host
         volumes:
             - /etc/hosts:/etc/hosts
@@ -21,7 +21,7 @@ services:
     test3:
         container_name: test3 
         image: grpcpingpong
-        command: server --msg "responce from grpc://peer0.test.eu:7053" --port 7053
+        command: server --msg "response from grpc://peer0.test.eu:7053" --port 7053
         network_mode: host
         volumes:
             - /etc/hosts:/etc/hosts

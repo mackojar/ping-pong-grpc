@@ -10,12 +10,15 @@ import (
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 type GRPCServerConfig struct {
 	Logger  log.Logger
 	Address lnet.Addresser
-	Message string 
+	Message string
+	Cert    string
+	Key     string
 }
 
 type GRPCServer struct {
@@ -26,10 +29,22 @@ type GRPCServer struct {
 }
 
 func NewGRPCServer(c GRPCServerConfig) *GRPCServer {
+	var gs *grpc.Server
+	if len(c.Key) > 0 {
+		creds, err := credentials.NewServerTLSFromFile(c.Cert, c.Key)
+		if err != nil {
+			c.Logger.Errorf("Could not load TLS keys: %s", err)
+			return nil
+		}
+		gs = grpc.NewServer(grpc.Creds(creds))
+		c.Logger.Infof("TLS mode enabled")
+	} else {
+		gs = grpc.NewServer()
+	}
 	s := &GRPCServer{
 		logger:  c.Logger,
 		address: c.Address,
-		server:  grpc.NewServer(),
+		server:  gs,
 		message: c.Message,
 	}
 

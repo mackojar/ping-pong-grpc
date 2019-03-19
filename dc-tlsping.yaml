@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+
+    tlsserver:
+        container_name: grpctlsserver 
+        image: grpcpingpong
+        command: server --msg "response from tls server" --port 8090 --cert /etc/certs/app.crt --key /etc/certs/app_no_pass.key
+        network_mode: host
+        volumes:
+            - /etc/hosts:/etc/hosts
+            - ${GRPCS_CERT_DIR}:/etc/certs
+
+    tlsclient:
+        container_name: grpctlsclient 
+        image: grpcpingpong
+        entrypoint: ""
+        command: tail -f /dev/null
+        network_mode: host
+        volumes:
+            - /etc/hosts:/etc/hosts
+            - ${GRPCS_CERT_DIR}:/etc/certs

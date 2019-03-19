@@ -13,12 +13,16 @@ import (
 
 var (
 	serverPort string
-        serverMsg string
+	serverMsg  string
+	tlsCert    string
+	tlsKey     string
 )
 
 func init() {
 	serverCommand.Flags().StringVar(&serverPort, "port", "8080", "Port to listen on connections.")
 	serverCommand.Flags().StringVar(&serverMsg, "msg", "pong", "Message returned by server.")
+	serverCommand.Flags().StringVar(&tlsCert, "cert", "", "TLS certificate.")
+	serverCommand.Flags().StringVar(&tlsKey, "key", "", "TLS key (no password protected).")
 }
 
 var serverCommand = &cobra.Command{
@@ -34,13 +38,14 @@ var serverCommand = &cobra.Command{
 				Port: serverPort,
 			},
 			Message: serverMsg,
+			Cert:    tlsCert,
+			Key:     tlsKey,
 		})
 
 		sigs := make(chan os.Signal, 1)
 		go func() {
 			signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 			l.Debugf("Received signal %s", <-sigs)
-
 			s.Stop()
 		}()
 

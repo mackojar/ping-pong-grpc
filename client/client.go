@@ -9,11 +9,13 @@ import (
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 type GRPCClientConfig struct {
 	Logger  log.Logger
 	Address net.Addresser
+	Cert    string
 }
 
 type GRPCClient struct {
@@ -25,9 +27,18 @@ type GRPCClient struct {
 
 func NewGRPCClient(conf GRPCClientConfig) (GRPCClient, error) {
 	conf.Logger.Info("Starting in client mode")
-
 	conf.Logger.Debugf("Establishing connection to %s", conf.Address.Address())
-	c, err := grpc.Dial(conf.Address.Address(), grpc.WithInsecure())
+	var dialOption grpc.DialOption
+	if len(conf.Cert) > 0 {
+		creds, err := credentials.NewClientTLSFromFile(conf.Cert, "")
+		if err != nil {
+			return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not load TLS cert %s", conf.Cert))
+		}
+		dialOption = grpc.WithTransportCredentials(creds)
+	} else {
+		dialOption = grpc.WithInsecure()
+	}
+	c, err := grpc.Dial(conf.Address.Address(), dialOption)
 	if err != nil {
 		return GRPCClient{}, errors.Wrap(err, fmt.Sprintf("Could not connect to %s", conf.Address.Address()))
 	}

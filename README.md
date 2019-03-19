@@ -6,7 +6,7 @@
 
 A little ping pong program that talks via gRPC.
 
-## Buld and save image
+## Build and save image
 
 Build the docker container with all necessary binaries
 ```
