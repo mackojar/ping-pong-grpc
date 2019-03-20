@@ -70,3 +70,7 @@ ping-pong-grpc client --cycle-mode --cycle-sleep-duration=1s
 ## Log levels
 
 All modes support multiple log levels via the `--log-level` flag.
+
+## TLS Support
+See [`README.tls.md`](README.tls.md) for TLS support.
+
